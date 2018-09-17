@@ -3,10 +3,14 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "@xbl/raml-mocker": "^1.0.0",
+    "raml2html": "^7.2.0"
+  },
   "devDependencies": {},
   "scripts": {
-    "start": "raml-mocker"
+    "start": "raml-mocker",
+    "build": "raml2html api.raml > api.html"
   },
   "keywords": [],
   "author": "",
