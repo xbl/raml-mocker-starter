@@ -1,0 +1,5 @@
+{
+  "controller": "./controller",
+  "raml": "./api.raml",
+  "port": 3000
+}
