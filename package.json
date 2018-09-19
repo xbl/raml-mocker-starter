@@ -7,10 +7,13 @@
     "@xbl/raml-mocker": "^1.0.0",
     "raml2html": "^7.2.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "chokidar-cli": "^1.2.1"
+  },
   "scripts": {
     "start": "raml-mocker",
-    "build": "raml2html api.raml > api.html"
+    "build": "raml2html api.raml > api.html",
+    "watch": "chokidar \"**/*.raml\" -c \"npm run build\""
   },
   "keywords": [],
   "author": "",
