@@ -12,7 +12,7 @@
   },
   "scripts": {
     "start": "raml-mocker",
-    "build": "raml2html api.raml > api.html",
+    "build": "raml2html ./raml/api.raml > api.html",
     "watch": "chokidar \"**/*.raml\" -c \"npm run build\""
   },
   "keywords": [],
