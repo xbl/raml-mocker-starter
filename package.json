@@ -13,7 +13,7 @@
   "scripts": {
     "start": "raml-mocker",
     "build": "raml2html ./raml/api.raml > api.html",
-    "watch": "chokidar \"**/*.raml\" -c \"npm run build\""
+    "watch": "chokidar \"./raml/**/*.*\" -c \"npm run build\""
   },
   "keywords": [],
   "author": "",
