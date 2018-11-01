@@ -2,5 +2,5 @@
   "controller": "./controller",
   "raml": "./raml",
   "main": "api.raml",
-  "port": 3001
+  "port": 3000
 }
