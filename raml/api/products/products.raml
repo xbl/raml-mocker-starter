@@ -17,9 +17,10 @@
   get:
     securedBy: [oauth_token]
     description: 商品详情
+    (controller): product#getProductDetail
     (uriParameters):
       productId:
-        description: article id
+        description: productId
         example: aaaa
     responses:
       200:
