@@ -1,33 +1,39 @@
-
-  song: |
-    {
-      "type": "object",
-      "$schema": "http://json-schema.org/draft-03/schema",
-      "id": "http://jsonschema.net",
-      "required": true,
-      "properties": {
-        "songTitle": {
-          "type": "string",
-          "required": true
-        },
-        "albumId": {
-          "type": "string",
-          "required": true,
-          "minLength": 36,
-          "maxLength": 36
-        }
-      }
-    }
-  abc: |
-    {
-      "type": "object",
-      "$schema": "http://json-schema.org/draft-03/schema",
-      "id": "http://jsonschema.net",
-      "required": true
-    }
-  User:
-    type: object
-    properties:
-      firstname: string
-      lastname:  string
-      age:       number
+ArticleListVO:
+  type: object
+  properties:
+    articleId:
+      type: string
+      required: false
+    title:
+      type: string
+      required: false
+    author: string
+Article:
+  type: object
+  properties:
+    articleId:
+      type: string
+      required: false
+    title:
+      type: string
+      required: false
+    author: string
+    paragraphs: Paragraph[]
+Paragraph:
+  type: object
+  properties:
+    title:
+    text:
+    product:
+      type: Product
+      required: false
+Product:
+  type: object
+  properties:
+    productId:
+      type: string
+      minLength: 4
+      maxLength: 36
+    productName: string
+    description: string
+    price: number

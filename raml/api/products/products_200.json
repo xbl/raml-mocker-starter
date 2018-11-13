@@ -1,0 +1,38 @@
+[
+  {
+    "productId": "00001",
+    "productName": "幻想玻璃香氛蜡烛",
+    "description": "各大博物馆列名典藏",
+    "price": 640
+  },
+  {
+    "productId": "P00002",
+    "productName": "KAWOO圣诞小鹿音响",
+    "description": "原木小鹿温暖你的冬季",
+    "price": 560
+  },
+  {
+    "productId": "P00003",
+    "productName": "原木榉木单车",
+    "description": "回到小时候",
+    "price": 1640
+  },
+  {
+    "productId": "P00003",
+    "productName": "限量永生花装饰画",
+    "description": "独立设计师限量版",
+    "price": 1060
+  },
+  {
+    "productId": "P00003",
+    "productName": "AESOP沐浴乳",
+    "description": "让你的冬季不再干燥",
+    "price": 280
+  },
+  {
+    "productId": "P00003",
+    "productName": "Blue Bottle咖啡",
+    "description": "感受第三波咖啡浪潮",
+    "price": 106
+  }
+]
