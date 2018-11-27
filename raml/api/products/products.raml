@@ -1,17 +1,16 @@
-/:
-  get:
-    description: 商品列表
-    queryParameters:
-      isStar:
-        description: 是否精选
-        type: boolean
-        required: false
-        example: true
-    responses:
-      200:
-        body:
-          type: Product[]
-          example: !include ./products_200.json
+get:
+  description: 商品列表
+  queryParameters:
+    isStar:
+      description: 是否精选
+      type: boolean
+      required: false
+      example: true
+  responses:
+    200:
+      body:
+        type: Product[]
+        example: !include ./products_200.json
 
 /{productId}:
   get:

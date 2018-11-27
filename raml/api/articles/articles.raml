@@ -1,11 +1,10 @@
-/:
-  get:
-    description: 文章列表
-    responses:
-      200:
-        body:
-          type: ArticleListVO[]
-          example: !include ./articles_list_200.json
+get:
+  description: 文章列表
+  responses:
+    200:
+      body:
+        type: ArticleListVO[]
+        example: !include ./articles_list_200.json
 /{id}:
   get:
     description: 文章详情
