@@ -8,13 +8,15 @@
     "raml2html": "^7.2.0"
   },
   "devDependencies": {
-    "chokidar-cli": "^1.2.1"
+    "chokidar-cli": "^1.2.1",
+    "cross-env": "^5.2.0"
   },
   "scripts": {
     "start": "raml-mocker",
     "build": "raml2html ./raml/api.raml > api.html",
     "watch": "chokidar \"./raml/**/*.*\" -c \"npm run build\"",
-    "test": "raml-runner"
+    "test": "raml-runner",
+    "test:dev": "cross-env NODE_ENV=dev raml-runner"
   },
   "keywords": [],
   "author": "",
