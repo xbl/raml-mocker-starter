@@ -72,7 +72,7 @@ raml-mocker 可以不写 js 代码生成Mock Server，只需要在response 添�
 
 ```yaml
 /books:
-  /:id:
+  /{id}:
     post:
       body:
         application/json:
