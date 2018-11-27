@@ -1,4 +1,4 @@
-# Raml-mocker 模板项目
+# Raml-mocker
 
 Raml-mocker 是基于 [Raml](https://raml.org/) 的 mock server，Raml 是 RESTfull API 描述语言，同时支持自定义指令。raml-mocker 可以根据 raml 描述文档读取到 API 中的 uri 及 response 中的 example 继而生成 mock server。
 
@@ -342,6 +342,8 @@ module.exports = (axios, response) => {
 
 
 
+
+
 ## Road Map
 
 - [x] API 自动化测试
@@ -352,3 +354,18 @@ module.exports = (axios, response) => {
 - [ ] baseUriParameters
 - [ ] [Proxy](https://github.com/chimurai/http-proxy-middleware) 代理
 
+
+
+## 注意
+
+在1.1.0 以后 对原本的 raml 中 uri 动态参数有些调整：
+
+```yaml
+# 1.1.0 以前
+/products/:productId
+
+# 1.1.0 以后
+/products/{productId}
+```
+
+此调整不会 break 之前的功能，在使用API 测试的时候必须修改。
