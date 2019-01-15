@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "@xbl/raml-mocker": "^1.0.0",
-    "raml2html": "^7.2.0"
+    "@xbl/raml-mocker": "^1.1.5-beta",
+    "raml2html": "^7.2.1"
   },
   "devDependencies": {
     "chokidar-cli": "^1.2.1",
