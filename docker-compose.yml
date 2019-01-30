@@ -5,8 +5,7 @@ services:
     volumes:
       - ./:/code/
     working_dir: /code
-    command: yarn install
-    command: yarn start
+    command: sh -c "yarn && yarn start"
     ports:
       - "3000:3000"
 
