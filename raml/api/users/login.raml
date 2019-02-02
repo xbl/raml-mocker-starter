@@ -1,16 +1,17 @@
 post:
   description: 登录
   body:
-    username:
-      description: 用户名
-      type: string
-      required: true
-      example: abc
-    password:
-      description: 密码
-      type: string
-      required: true
-      example: abc
+    application/json:
+      properties:
+        username:
+          description: 用户名
+          type: string
+          required: true
+        password:
+          description: 密码
+          type: string
+          required: true
+    example: {password: 123, name: name}
   (runner):
     # 注意：这里的相对路径是相对于工程目录，而不是当前文件。
     after: ./runner/afterLogin.js
