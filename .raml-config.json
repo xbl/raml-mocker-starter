@@ -4,7 +4,7 @@
   "main": "api.raml",
   "port": 3000,
   "runner": {
-    "local": "http://localhost:3000",
+    "test": "http://localhost:3000",
     "dev": "http://abc.com:3001"
   }
 }
