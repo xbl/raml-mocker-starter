@@ -1,7 +1,7 @@
 #%RAML 1.0
 ---
 title: hello demo API
-baseUri: /api/v1
+baseUri: /
 version: v1
 mediaType: application/json
 
@@ -15,6 +15,7 @@ resourceTypes: !include ./resourceTypes.raml
 types: !include ./types.raml
 
 #
-/articles: !include ./api/articles/articles.raml
-/products: !include ./api/products/products.raml
-/login: !include ./api/users/login.raml
+/api/v1:
+  /articles: !include ./api/articles/articles.raml
+  /products: !include ./api/products/products.raml
+  /login: !include ./api/users/login.raml
