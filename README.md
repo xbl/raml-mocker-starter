@@ -1,6 +1,9 @@
 # Raml-mocker
 
 ![version](https://img.shields.io/npm/v/@xbl/raml-mocker.svg)
+![node (scoped)](https://img.shields.io/node/v/@xbl/raml-mocker.svg?style=flat)
+[![Build Status](https://travis-ci.org/xbl/raml-mocker.svg?branch=master)](https://travis-ci.org/xbl/raml-mocker)
+[![codecov](https://codecov.io/gh/xbl/raml-mocker/branch/master/graph/badge.svg)](https://codecov.io/gh/xbl/raml-mocker)
 
 Raml-mocker 是基于 [Raml](https://raml.org/) 的 mock server，Raml 是 RESTfull API 描述语言，同时支持自定义指令。raml-mocker 可以根据 raml 描述文档读取到 API 中的 uri 及 response 中的 example 继而生成 mock server。
 
@@ -12,7 +15,7 @@ git clone https://github.com/xbl/raml-mocker-starter.git raml-api
 cd raml-api
 git remote rm origin
 ```
-#### 安装方法一——NodeJs
+#### 安装
 ```shell
 yarn
 # or
@@ -24,31 +27,7 @@ yarn start
 # or
 npm start
 ```
-#### 安装方法二——使用 docker-compose
-
-这部分是给不太擅长折腾nodejs环境的同学准备的。在项目中增加了 `docker-compose.yml` ，需要 Docker 环境，进入目录执行
-
-``` shell
-docker-compose up
-```
-
-第一次会拉取镜像，稍稍会有些慢。
-
-##### 停止 mock server
-
-``` shell
-docker-compose down
-```
-
-##### 在 docker 中执行命令
-
-```shell
-docker-compose exec raml-mocker sh
-# 退出
-exit
-```
-
-
+不熟悉 Nodejs 的同学可以参考[这里](https://github.com/xbl/raml-mocker/wiki/%E4%BD%BF%E7%94%A8Docker%E5%90%AF%E5%8A%A8)，使用 Docker 启动。
 
 #### 验证一下
 
@@ -169,66 +148,12 @@ exports.getBook = (req, res, webApi) => {
 
 Raml-mocker 是在 [expressjs](http://expressjs.com/) 基础上进行开发，req、res 可以参考 express 文档。
 
-webApi 会返回文档中的配置：
-
-```json
-{
-  "absoluteUri": "/api/:version/users/:user_id/books",
-  "method": "get",
-  "controller": "user#getBook",
-  "responses": [
-    {
-      "code": "200",
-      "body": "... example ...",
-      "mimeType": "application/json"
-    }
-  ]
-}
-
-```
 
 如此，raml-mocker 提供了更多可扩展空间，我们甚至可以在 controller 中实现一定的逻辑判断。
 
-
-
-### 插件
-
-Raml-mocker 提供了插件机制，允许我们在不使用 `controller` 指令的时候对 response 的内容进行处理，例如使用[Mockjs](http://mockjs.com/)。
-
-**注意：插件的这种形式还没有想好，未来可能会有变动，即便有变动也会尽可能向下兼容。**
-
-.raml-config.json
-
-```json
-{
-  "controller": "./controller",
-  "raml": "./raml",
-  "main": "api.raml",
-  "port": 3000,
-  "plugins": ["./plugins/mock.js"]
-}
-
-```
-
-./plugins/mock.js
-
-```javascript
-var { mock } = require('mockjs');
-
-module.exports = (body) => {
-  try {
-    return mock(JSON.parse(body));
-  } catch(e) {}
-  return body;
-}
-
-```
-
-
-
 ## API 自动化测试
 
-在 1.1.0 中增加 API 测试，通过在 raml 文件中添加 response 数据的描述，来验证 response 的数据是否符合预期。
+在 1.1.0 中增加 API 测试，通过在 raml 文件中添加 response 数据格式描述，raml-runner 会发送请求，来验证 response 的数据格式是否符合预期。
 
 ![runner](https://ws1.sinaimg.cn/large/006tNbRwly1fyaoa2ikfeg30i60b4afa.gif)
 
@@ -278,7 +203,7 @@ get:
     responses:
       200:
         body:
-          # 这里描述的商品
+          # type 这里描述的商品
           type: Product
           example: !include ./product_200.json
 
@@ -346,6 +271,7 @@ npm run test:dev
           required: true
           example: abc
       (runner):
+      	# 注意：这里的相对路径是相对于工程目录，而不是当前文件。
         after: ./runner/afterLogin.js
       responses:
         200:
@@ -368,32 +294,138 @@ module.exports = (axios, response) => {
 
 测试发请求使用的 [axios](https://www.npmjs.com/package/axios) 模块，所以这里会在函数参数中添加 axios 实例，以及执行 login 接口的 response 对象。通常，设置 Header 就可以满足登录所需要的大部分场景。
 
+afterLogin.js 可返回 `Promise` 对象：
+
+``` js
+module.exports = (axios, response) => {
+  return new Promise((resolve, reject) => {
+    axios.defaults.headers.common['Authorization'] = response.data;
+    setTimeout(() => {
+      console.log('不仅设置了header，还吃了个饭，洗了个澡...');
+      resolve()
+    }, 3000);
+  });
+}
+```
 
 
 
+## API 场景测试
+
+在 2.0 中增加了 API  的场景测试，在目录中增加了 `test` 文件夹。
+
+1. 在 raml 中增加 description
+
+```yaml
+get:
+  description: 商品列表
+  queryParameters:
+    isStar:
+      description: 是否精选
+      type: boolean
+      required: false
+      example: true
+    isOk:
+      description: 是否精选2
+      type: boolean
+      required: false
+      example: true
+  responses:
+    200:
+      body:
+        type: Product[]
+        example: !include ./products_200.json
+```
+
+**注意：** description 的字符串会在 loadApi 时使用，所以请保证唯一。
+
+2. 在 test 目录新增 article.spec.js 
+
+```javascript
+const assert = require('assert');
+const { loadApi } = require('@xbl/raml-mocker');
+
+it('从文章列表到文章详情', async () => {
+  // 根据 `文章列表` 的description 找到 raml 描述的 API
+  const getList = loadApi('文章列表');
+  const { status, data: list } = await getList();
+  const articleId = list[0].articleId;
+
+  assert.equal(status, 200);
+  assert.equal(articleId, 'A00001');
+
+  const getDetail = loadApi('文章详情');
+  const { data: detail } = await getDetail({ id: articleId });
+  assert.equal(detail.title, '提升家里整体格调的小物件');
+});
+```
+
+测试框架集成了 [Mocha](https://mochajs.org/)，断言使用 nodejs 自带的 [Assert](https://nodejs.org/dist/latest-v10.x/docs/api/assert.html#assert_assert) 模块，开发者可以选择自己喜欢的断言库。
+
+运行测试
+
+```shell
+yarn run test:api
+```
+
+![运行测试](https://ws3.sinaimg.cn/large/006tKfTcly1g0iq4fyubng30sg0lcqja.gif)
+
+
+
+### API 
+
+```javascript
+loadApi(description: string): Function;
+// loadApi 接收一个字符串参数，返回一个函数
+
+anonymousFn (uriParameters, queryParameter, body): Promise<AxiosResponse>
+
+/**
+ * uriParameters: {
+ *  id: 1
+ *  ...
+ * }
+ * 
+ * queryParameter: {
+ *  pageSize: 20
+ *  ...
+ * }
+ * 
+ * body 是 POST 的数据
+ */
+```
+
+AioseResponse 文档可参考[这里](https://www.npmjs.com/package/axios#response-schema)。
+
+
+
+## HTTP Archive (HAR) 反向工程
+
+这部分同样是 2.0 新增的功能，帮助开发者和测试同学可以在已有的历史项目中快速使用 raml-mocker，并生成测试代码片段。关于 har 可参考[这里](https://github.com/xbl/raml-mocker/wiki/HTTP-Archive-(HAR)--%E8%AF%B4%E6%98%8E)。
+
+[![视频](http://img.alicdn.com/tfs/TB1ZbM.lOqAXuNjy1XdXXaYcVXa-160-90.png)](http://v.youku.com/v_show/id_XNDA3NzYzOTM2MA==.html?spm=a2h3j.8428770.3416059.1)
+
+### 通过 har 文件生成 raml
+
+以 npm 为例：
+
+``` shell
+har-convert -f ./www.npmjs.com.har -o ./raml/api.raml -filter www.npmjs.com
+```
+
+### 通过 har 文件生成测试片段
+
+```shell
+har-convert -f ./www.npmjs.com.har -o ./test/search.spec.js
+```
 
 ## Road Map
 
 - [x] API 自动化测试
+- [x] API 场景测试
 - [x] 自动化增加前置条件，如：登录
-- [ ] 测试数据导入
+- [x] 读取 HTTP Archive (HAR) format 反向工程
 - [ ] Mock Server 增加请求参数验证
 - [ ] baseUriParameters
 - [ ] 上传文件的处理
-- [ ] 读取 HTTP Archive (HAR) format 反向工程
 
-
-
-## 注意
-
-在1.1.0 以后 对原本的 raml 中 uri 动态参数有些调整：
-
-```yaml
-# 1.1.0 以前
-/products/:productId
-
-# 1.1.0 以后
-/products/{productId}
-```
-
-此调整不会 break 之前的功能，在使用API 测试的时候必须修改。
