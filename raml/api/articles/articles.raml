@@ -18,3 +18,17 @@ get:
           type: Article
           example: !include ./article_200.json
 
+/{id}/xml:
+  get:
+    description: 文章详情xml
+    (uriParameters):
+      id:
+        description: article id
+        example: bbbb
+    responses:
+      200:
+        body:
+          application/xml:
+            type: Article
+            example: !include ./article_detail.xml
+
