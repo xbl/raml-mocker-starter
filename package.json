@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "@xbl/raml-mocker": "^2.0.0",
+    "@xbl/raml-mocker": "^2.0.1",
     "raml2html": "^7.3.0"
   },
   "devDependencies": {
