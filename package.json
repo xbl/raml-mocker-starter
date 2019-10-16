@@ -5,8 +5,8 @@
   "main": "index.js",
   "dependencies": {
     "@xbl/raml-mocker": "^2.0.4",
-    "raml2html": "^7.4.0",
-    "raml2html-modern-theme": "^1.0.8"
+    "@xbl/raml2html-modern-theme": "^1.0.0",
+    "raml2html": "^7.4.0"
   },
   "devDependencies": {
     "chokidar-cli": "^1.2.1",
@@ -15,7 +15,7 @@
   },
   "scripts": {
     "start": "raml-mocker",
-    "build": "raml2html --theme 'raml2html-modern-theme' ./raml/api.raml > api.html",
+    "build": "raml2html --theme '@xbl/raml2html-modern-theme' ./raml/api.raml > api.html",
     "watch": "chokidar \"./raml/**/*.*\" -c \"npm run build\"",
     "test": "raml-runner",
     "test:dev": "cross-env NODE_ENV=dev raml-runner",
